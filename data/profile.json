@@ -1,0 +1,17 @@
+{
+  "name": "你的名字",
+  "title": "摄影师 / 写作者 / 创意技术爱好者",
+  "bio": "相信好的作品来自持续的观察与思考。热爱在山川湖海间寻找灵感，用镜头和文字记录这个世界。",
+  "avatar": "/images/avatar.jpg",
+  "email": "hello@example.com",
+  "social": {
+    "blog": "https://blog.example.com",
+    "github": "https://github.com/yourname",
+    "twitter": "https://x.com/yourname"
+  },
+  "stats": {
+    "articles": 12,
+    "photos": 200,
+    "projects": 8
+  }
+}
