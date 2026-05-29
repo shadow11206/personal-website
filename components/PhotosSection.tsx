@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { getPhotos, getPhotoCategories } from "@/lib/content";
+import type { PhotoMeta } from "@/lib/content";
 import SectionTitle from "./SectionTitle";
 import PhotoCard from "./PhotoCard";
 
-export default function PhotosSection() {
-  const photos = getPhotos();
-  const categories = getPhotoCategories();
+interface PhotosSectionProps {
+  photos: PhotoMeta[];
+  categories: string[];
+}
+
+export default function PhotosSection({ photos, categories }: PhotosSectionProps) {
   const [activeCategory, setActiveCategory] = useState("全部");
 
   const filtered =
