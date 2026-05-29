@@ -9,7 +9,7 @@ export default function BackButton({ href, label }: BackButtonProps) {
   return (
     <Link
       href={href}
-      className="inline-flex items-center gap-1.5 text-[11px] text-text-secondary
+      className="inline-flex items-center gap-1.5 text-[13px] text-text-secondary
                  hover:text-[#ff6700] transition-colors duration-250 group"
     >
       <svg

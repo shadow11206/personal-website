@@ -9,8 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "gsap": "^3.12.0",
+    "@tailwindcss/typography": "^0.5.19",
     "gray-matter": "^4.0.3",
+    "gsap": "^3.12.0",
     "lenis": "^1.2.0",
     "next": "^15.2.0",
     "react": "^19.0.0",

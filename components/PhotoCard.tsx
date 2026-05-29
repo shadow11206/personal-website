@@ -12,7 +12,7 @@ export default function PhotoCard({ photo, large = false }: { photo: PhotoMeta; 
         style={{ backgroundImage: `url(${photo.image})` }}
       />
       <div className="photo-overlay">
-        <span className="text-white text-[10px] font-medium">{photo.title}</span>
+        <span className="text-white text-[12px] font-medium">{photo.title}</span>
       </div>
     </Link>
   );

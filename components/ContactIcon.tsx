@@ -17,10 +17,10 @@ const iconPaths: Record<IconType, string> = {
 };
 
 const iconSizes: Record<IconType, number> = {
-  email: 20,
-  blog: 20,
-  github: 20,
-  twitter: 18,
+  email: 18,
+  blog: 18,
+  github: 18,
+  twitter: 16,
 };
 
 export default function ContactIcon({ type, href }: ContactIconProps) {

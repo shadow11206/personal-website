@@ -50,7 +50,7 @@ export default function Navbar() {
           <button
             key={item.id}
             onClick={() => scrollTo(item.id)}
-            className={`text-[11px] transition-colors duration-200 ${
+            className={`text-[13px] transition-colors duration-200 ${
               active === item.id ? "text-[#ff6700]" : "text-text-secondary hover:text-text-primary"
             }`}
           >

@@ -13,7 +13,7 @@ function PrevNextNav({ slug }: { slug: string }) {
   const nextPhoto = currentIndex < allPhotos.length - 1 ? allPhotos[currentIndex + 1] : null;
 
   return (
-    <div className="flex items-center gap-2 text-[11px] text-text-secondary">
+    <div className="flex items-center gap-2 text-[13px] text-text-secondary">
       {prevPhoto ? (
         <a
           href={`/photos/${prevPhoto.slug}`}
@@ -82,10 +82,10 @@ export default async function PhotoPage({
         {/* Top bar */}
         <div className="flex items-end justify-between mb-7">
           <div>
-            <span className="text-[10px] tracking-[1px] text-[#ff6700]">
+            <span className="text-[12px] tracking-[1px] text-[#ff6700]">
               {photo.category.toUpperCase()} · {photo.date}
             </span>
-            <h1 className="text-[28px] font-bold text-text-primary mt-2">
+            <h1 className="text-[34px] font-bold text-text-primary mt-2">
               {photo.title}
             </h1>
           </div>
@@ -113,7 +113,7 @@ export default async function PhotoPage({
             <circle cx="12" cy="10" r="3"/>
             <path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/>
           </svg>
-          <span className="text-[12px] text-text-secondary">{photo.location}</span>
+          <span className="text-[14px] text-text-secondary">{photo.location}</span>
         </div>
 
         {/* Back link */}

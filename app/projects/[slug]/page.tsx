@@ -30,17 +30,17 @@ export default async function ProjectPage({
 
         {/* Header — staggered entrance */}
         <div>
-          <span className="text-[10px] tracking-[1px] text-[#ff6700] animate-fade-in">
+          <span className="text-[12px] tracking-[1px] text-[#ff6700] animate-fade-in">
             {meta.type}
           </span>
           <h1
-            className="text-[28px] font-bold text-text-primary mt-2 animate-fade-up"
+            className="text-[34px] font-bold text-text-primary mt-2 animate-fade-up"
             style={{ animationDelay: "0.08s" }}
           >
             {meta.title}
           </h1>
           <p
-            className="text-[13px] text-text-secondary mt-1.5 max-w-[600px] leading-relaxed animate-fade-up"
+            className="text-[15px] text-text-secondary mt-1.5 max-w-[600px] leading-relaxed animate-fade-up"
             style={{ animationDelay: "0.16s" }}
           >
             {meta.description}
@@ -54,7 +54,7 @@ export default async function ProjectPage({
             {meta.techStack.map((tech) => (
               <span
                 key={tech}
-                className="text-[9px] text-text-secondary bg-[#f5f5f5] px-2.5 py-0.5 rounded
+                className="text-[11px] text-text-secondary bg-[#f5f5f5] px-2.5 py-0.5 rounded
                            hover:bg-[#fff5ee] transition-colors duration-200"
               >
                 {tech}
@@ -72,7 +72,7 @@ export default async function ProjectPage({
                 href={meta.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-[11px] text-text-primary
+                className="inline-flex items-center gap-1.5 text-[13px] text-text-primary
                            border border-surface-border rounded-full px-4 py-1.5
                            hover:border-[#ff6700] hover:text-[#ff6700]
                            hover:-translate-y-0.5 transition-all duration-250"
@@ -91,7 +91,7 @@ export default async function ProjectPage({
                 href={meta.sourceUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-[11px] text-text-primary
+                className="inline-flex items-center gap-1.5 text-[13px] text-text-primary
                            border border-surface-border rounded-full px-4 py-1.5
                            hover:border-[#ff6700] hover:text-[#ff6700]
                            hover:-translate-y-0.5 transition-all duration-250"
@@ -123,7 +123,7 @@ export default async function ProjectPage({
         {/* Body content */}
         <div className="mt-7 prose prose-sm max-w-none
                         prose-headings:text-text-primary prose-headings:font-semibold
-                        prose-p:text-[13px] prose-p:text-text-body prose-p:leading-relaxed
+                        prose-p:text-[15px] prose-p:text-text-body prose-p:leading-relaxed
                         prose-img:rounded-lg prose-img:w-full">
           <ReactMarkdown>{data.content}</ReactMarkdown>
         </div>
