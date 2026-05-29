@@ -44,7 +44,7 @@ export default function Navbar() {
                     scrolled ? "bg-white/95 backdrop-blur-sm shadow-sm" : "bg-transparent"
                   }`}
     >
-      <span className="font-bold text-[14px] text-text-primary">YOUR NAME</span>
+      <span className="font-bold text-[16px] text-text-primary">YOUR NAME</span>
       <div className="flex gap-8">
         {navItems.map((item) => (
           <button

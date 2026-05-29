@@ -6,15 +6,15 @@ interface SectionTitleProps {
 
 export default function SectionTitle({ label, title, subtitle }: SectionTitleProps) {
   return (
-    <div className="mb-8">
-      <div className="text-[10px] tracking-[3px] text-text-caption uppercase mb-2">
+    <div className="mb-10">
+      <div className="text-[13px] tracking-[4px] text-text-caption uppercase mb-3">
         {label}
       </div>
-      <h2 className="text-[36px] font-bold text-text-primary tracking-[-0.5px] leading-tight">
+      <h2 className="text-[48px] font-bold text-text-primary tracking-[-1px] leading-tight">
         {title}
       </h2>
       {subtitle && (
-        <p className="text-[13px] text-text-secondary mt-2">{subtitle}</p>
+        <p className="text-[15px] text-text-secondary mt-3">{subtitle}</p>
       )}
     </div>
   );
