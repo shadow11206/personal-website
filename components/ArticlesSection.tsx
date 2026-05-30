@@ -4,8 +4,7 @@ import ArticleCard from "./ArticleCard";
 
 export default function ArticlesSection() {
   const articles = getArticles();
-  const featured = articles.find((a) => a.featured);
-  const list = articles.filter((a) => !a.featured);
+  const featuredArticle = articles.find((a) => a.featured);
 
   return (
     <section
@@ -20,14 +19,14 @@ export default function ArticlesSection() {
           subtitle="记录思考，分享发现。写过的文字，走过的路。"
         />
 
-        {featured && (
-          <div className="mb-6">
-            <ArticleCard article={featured} featured />
+        {featuredArticle && (
+          <div className="mb-8">
+            <ArticleCard article={featuredArticle} featured />
           </div>
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {list.map((article) => (
+          {articles.map((article) => (
             <ArticleCard key={article.slug} article={article} />
           ))}
         </div>
