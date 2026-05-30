@@ -59,14 +59,14 @@ export default function PhotosSection({ photos, categories }: PhotosSectionProps
           ))}
         </div>
 
-        {/* Grid — 3 columns, auto rows */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {/* Artistic masonry grid — 3 columns, auto rows, 8px gaps */}
+        <div className="grid grid-cols-3 auto-rows-[180px] gap-2">
           {visible.map((photo) => (
             <PhotoCard key={photo.slug} photo={photo} />
           ))}
         </div>
 
-        {/* Show more button */}
+        {/* Show more */}
         {hasMore && !showAll && (
           <div className="text-center mt-8">
             <button
