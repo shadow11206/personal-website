@@ -9,7 +9,8 @@ export default function ArticlesSection() {
   return (
     <section
       id="articles"
-      className="min-h-screen w-full bg-[#fafafa] py-20"
+      className="min-h-screen w-full py-20"
+      style={{ background: "linear-gradient(160deg, #f5f7fa 0%, #eef2f7 50%, #e6ecf2 100%)" }}
       data-section="articles"
     >
       <div className="max-w-[1100px] mx-auto px-10 w-full">

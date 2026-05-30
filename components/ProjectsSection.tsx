@@ -8,7 +8,8 @@ export default function ProjectsSection() {
   return (
     <section
       id="projects"
-      className="min-h-screen w-full bg-[#fafafa] py-20"
+      className="min-h-screen w-full py-20"
+      style={{ background: "linear-gradient(160deg, #faf8f5 0%, #f8f0e5 50%, #f2e8d8 100%)" }}
       data-section="projects"
     >
       <div className="max-w-[1100px] mx-auto px-10 w-full">

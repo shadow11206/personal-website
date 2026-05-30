@@ -22,7 +22,7 @@ export default async function ProjectPage({
   const { meta } = data;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: "linear-gradient(160deg, #faf8f5 0%, #f8f0e5 40%, #f2e8d8 100%)" }}>
       <div className="max-w-[900px] mx-auto px-10 py-12">
         <div className="mb-8">
           <BackButton href="/#projects" label="返回项目列表" />

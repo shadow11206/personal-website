@@ -22,7 +22,7 @@ export default async function ArticlePage({
   const { meta } = data;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: "linear-gradient(160deg, #f5f7fa 0%, #eef2f7 40%, #e6ecf2 100%)" }}>
       <div className="max-w-[720px] mx-auto px-10 py-12">
         {/* Back button */}
         <div className="mb-8">

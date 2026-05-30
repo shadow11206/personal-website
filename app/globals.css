@@ -28,7 +28,7 @@ html {
 body {
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   color: var(--color-text-primary);
-  background: #ffffff;
+  background: linear-gradient(160deg, #faf8f5 0%, #f5f2ed 50%, #f0ebe2 100%);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

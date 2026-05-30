@@ -50,7 +50,8 @@ export default function PhotosSection({ photos, categories }: PhotosSectionProps
   return (
     <section
       id="photos"
-      className="min-h-screen w-full bg-white py-20"
+      className="min-h-screen w-full py-20"
+      style={{ background: "linear-gradient(160deg, #f5f8f5 0%, #eef5ee 50%, #e6f0e6 100%)" }}
       data-section="photos"
     >
       <div className="max-w-[1100px] mx-auto px-10 w-full">

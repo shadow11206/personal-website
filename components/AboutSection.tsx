@@ -5,7 +5,8 @@ export default function AboutSection() {
   return (
     <section
       id="about"
-      className="h-screen w-full flex bg-white overflow-hidden"
+      className="h-screen w-full flex overflow-hidden"
+      style={{ background: "linear-gradient(160deg, #faf8f5 0%, #f5f0e8 50%, #efe4d4 100%)" }}
       data-section="about"
     >
       {/* Left: full-bleed image — 45% */}

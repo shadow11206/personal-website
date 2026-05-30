@@ -72,7 +72,7 @@ export default async function PhotoPage({
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: "linear-gradient(160deg, #f5f8f5 0%, #eef5ee 40%, #e6f0e6 100%)" }}>
       <div className="max-w-[1000px] mx-auto px-10 py-12">
         <div className="flex items-end justify-between mb-7">
           <div>
