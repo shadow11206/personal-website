@@ -4,6 +4,10 @@ import matter from "gray-matter";
 
 const CONTENT_ROOT = path.join(process.cwd(), "content");
 
+function toSlug(filename: string): string {
+  return filename.replace(/\.md$/, "").replace(/\s+/g, "-");
+}
+
 export interface ArticleMeta {
   slug: string;
   title: string;
@@ -43,7 +47,7 @@ export function getArticles(): ArticleMeta[] {
     .map((file) => {
       const raw = fs.readFileSync(path.join(dir, file), "utf-8");
       const { data } = matter(raw);
-      return { slug: file.replace(".md", ""), ...data } as ArticleMeta;
+      return { slug: toSlug(file), ...data } as ArticleMeta;
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
@@ -62,7 +66,7 @@ export function getPhotos(): PhotoMeta[] {
     .map((file) => {
       const raw = fs.readFileSync(path.join(dir, file), "utf-8");
       const { data } = matter(raw);
-      return { slug: file.replace(".md", ""), ...data } as PhotoMeta;
+      return { slug: toSlug(file), ...data } as PhotoMeta;
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
@@ -81,7 +85,7 @@ export function getProjects(): ProjectMeta[] {
     .map((file) => {
       const raw = fs.readFileSync(path.join(dir, file), "utf-8");
       const { data } = matter(raw);
-      return { slug: file.replace(".md", ""), ...data } as ProjectMeta;
+      return { slug: toSlug(file), ...data } as ProjectMeta;
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
