@@ -1,5 +1,5 @@
 ---
-title: "红杉最新预言给PM提了个醒：你干的到底是“智能活”还是“判断活”？"
+title: "红？"
 date: "2026-04-10"
 category: "产品"
 cover: "/images/articles/design-system.jpg"

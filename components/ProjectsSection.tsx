@@ -8,10 +8,10 @@ export default function ProjectsSection() {
   return (
     <section
       id="projects"
-      className="h-screen w-full bg-[#fafafa] flex items-center overflow-hidden"
+      className="min-h-screen w-full bg-[#fafafa] py-20"
       data-section="projects"
     >
-      <div className="max-w-[1100px] mx-auto px-10 py-12 w-full">
+      <div className="max-w-[1100px] mx-auto px-10 w-full">
         <SectionTitle
           label="PROJECTS"
           title="个人项目"

@@ -18,16 +18,13 @@ export default function PhotosSection({ photos, categories }: PhotosSectionProps
       ? photos
       : photos.filter((p) => p.category === activeCategory);
 
-  const mainPhoto = filtered[0];
-  const sidePhotos = filtered.slice(1, 5);
-
   return (
     <section
       id="photos"
-      className="h-screen w-full bg-white flex items-center overflow-hidden"
+      className="min-h-screen w-full bg-white py-20"
       data-section="photos"
     >
-      <div className="max-w-[1100px] mx-auto px-10 py-12 w-full">
+      <div className="max-w-[1100px] mx-auto px-10 w-full">
         <SectionTitle
           label="GALLERY"
           title="摄影作品"
@@ -35,7 +32,7 @@ export default function PhotosSection({ photos, categories }: PhotosSectionProps
         />
 
         {/* Category tabs */}
-        <div className="flex gap-6 mb-7 border-b border-surface-divider pb-3">
+        <div className="flex gap-6 mb-8 border-b border-surface-divider pb-3">
           {categories.map((cat) => (
             <button
               key={cat}
@@ -51,14 +48,9 @@ export default function PhotosSection({ photos, categories }: PhotosSectionProps
           ))}
         </div>
 
-        {/* Masonry grid */}
-        <div className="grid grid-cols-[2fr_1fr_1fr] grid-rows-[180px_180px] gap-3">
-          {mainPhoto && (
-            <div className="row-span-2">
-              <PhotoCard photo={mainPhoto} large />
-            </div>
-          )}
-          {sidePhotos.map((photo) => (
+        {/* Responsive grid — all photos, natural aspect ratios */}
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-5 space-y-5">
+          {filtered.map((photo) => (
             <PhotoCard key={photo.slug} photo={photo} />
           ))}
         </div>
