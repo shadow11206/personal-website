@@ -10,7 +10,7 @@ interface PhotosSectionProps {
   categories: string[];
 }
 
-const INITIAL_SHOW = 8;
+const INITIAL_SHOW = 9;
 
 export default function PhotosSection({ photos, categories }: PhotosSectionProps) {
   const [activeCategory, setActiveCategory] = useState("全部");
@@ -59,14 +59,14 @@ export default function PhotosSection({ photos, categories }: PhotosSectionProps
           ))}
         </div>
 
-        {/* Artistic masonry grid — 3 columns, auto rows, 8px gaps */}
-        <div className="grid grid-cols-3 auto-rows-[180px] gap-2">
+        {/* Masonry — CSS columns, each image keeps its natural aspect ratio */}
+        <div className="columns-2 md:columns-3 gap-4 space-y-4">
           {visible.map((photo) => (
             <PhotoCard key={photo.slug} photo={photo} />
           ))}
         </div>
 
-        {/* Show more */}
+        {/* Show more / collapse */}
         {hasMore && !showAll && (
           <div className="text-center mt-8">
             <button
