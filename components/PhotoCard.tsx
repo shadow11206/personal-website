@@ -5,15 +5,15 @@ export default function PhotoCard({ photo }: { photo: PhotoMeta }) {
   return (
     <Link
       href={`/photos/${photo.slug}`}
-      className="photo-card block"
+      className="photo-card block w-full h-full"
     >
       <img
         src={photo.image}
         alt={photo.title}
-        className="w-full h-auto block rounded-[10px]"
+        className="w-full h-full object-cover block"
         loading="lazy"
       />
-      <div className="photo-overlay rounded-[10px]">
+      <div className="photo-overlay">
         <span className="text-white text-[13px] font-medium">{photo.title}</span>
       </div>
     </Link>

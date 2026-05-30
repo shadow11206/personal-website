@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import type { PhotoMeta } from "@/lib/content";
 import SectionTitle from "./SectionTitle";
 import PhotoCard from "./PhotoCard";
@@ -10,16 +10,34 @@ interface PhotosSectionProps {
   categories: string[];
 }
 
+interface SizedPhoto extends PhotoMeta {
+  spanCols: number;
+  spanRows: number;
+}
+
 const INITIAL_SHOW = 9;
+
+function assignGridSpans(photos: PhotoMeta[]): SizedPhoto[] {
+  // Pattern: first photo hero (2x2), then varied: wide(2x1), tall(1x2), square(1x1)
+  return photos.map((photo, i) => {
+    if (i === 0) return { ...photo, spanCols: 2, spanRows: 2 };
+    const pattern = i % 6;
+    if (pattern === 1 || pattern === 4) return { ...photo, spanCols: 2, spanRows: 1 }; // wide
+    if (pattern === 2) return { ...photo, spanCols: 1, spanRows: 2 }; // tall
+    return { ...photo, spanCols: 1, spanRows: 1 }; // normal/small
+  });
+}
 
 export default function PhotosSection({ photos, categories }: PhotosSectionProps) {
   const [activeCategory, setActiveCategory] = useState("全部");
   const [showAll, setShowAll] = useState(false);
 
+  const allSized = assignGridSpans(photos);
+
   const filtered =
     activeCategory === "全部"
-      ? photos
-      : photos.filter((p) => p.category === activeCategory);
+      ? allSized
+      : allSized.filter((p) => p.category === activeCategory);
 
   const visible = showAll ? filtered : filtered.slice(0, INITIAL_SHOW);
   const hasMore = filtered.length > INITIAL_SHOW;
@@ -59,11 +77,24 @@ export default function PhotosSection({ photos, categories }: PhotosSectionProps
           ))}
         </div>
 
-        {/* Masonry — CSS columns, each image keeps its natural aspect ratio */}
-        <div className="columns-2 md:columns-3 gap-4 space-y-4">
-          {visible.map((photo) => (
-            <PhotoCard key={photo.slug} photo={photo} />
-          ))}
+        {/* Jigsaw grid — varying spans per photo */}
+        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[160px] gap-3">
+          {visible.map((photo) => {
+            const colSpan = photo.spanCols;
+            const rowSpan = photo.spanRows;
+            return (
+              <div
+                key={photo.slug}
+                className="relative"
+                style={{
+                  gridColumn: `span ${colSpan}`,
+                  gridRow: `span ${rowSpan}`,
+                }}
+              >
+                <PhotoCard photo={photo} />
+              </div>
+            );
+          })}
         </div>
 
         {/* Show more / collapse */}
