@@ -46,8 +46,8 @@ export default function PhotosSection({ photos, categories }: PhotosSectionProps
 
   const itemStyle = (i: number) => ({
     opacity: inView ? 1 : 0,
-    transform: inView ? "scale(1)" : "scale(0.94)",
-    transition: `all 0.8s cubic-bezier(0.25, 0.8, 0.5, 1) ${0.05 + i * 0.07}s`,
+    transform: inView ? "scale(1)" : "scale(0.82)",
+    transition: `all 1.0s cubic-bezier(0.25, 0.8, 0.5, 1) ${0.05 + i * 0.07}s`,
   });
 
   return (

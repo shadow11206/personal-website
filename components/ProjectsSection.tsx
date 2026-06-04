@@ -10,8 +10,8 @@ export default function ProjectsSection({ projects }: { projects: ProjectMeta[] 
 
   const itemStyle = (i: number) => ({
     opacity: inView ? 1 : 0,
-    transform: inView ? "translateY(0)" : "translateY(40px)",
-    transition: `all 0.9s cubic-bezier(0.25, 0.8, 0.5, 1) ${0.1 + i * 0.12}s`,
+    transform: inView ? "translateY(0)" : "translateY(80px)",
+    transition: `all 1.1s cubic-bezier(0.25, 0.8, 0.5, 1) ${0.1 + i * 0.12}s`,
   });
 
   return (
