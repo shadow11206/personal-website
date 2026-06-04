@@ -1,13 +1,39 @@
-import { getProjects } from "@/lib/content";
+"use client";
+
+import { useEffect, useRef } from "react";
+import type { ProjectMeta } from "@/lib/content";
 import SectionTitle from "./SectionTitle";
 import ProjectCard from "./ProjectCard";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-export default function ProjectsSection() {
-  const projects = getProjects();
+gsap.registerPlugin(ScrollTrigger);
+
+export default function ProjectsSection({ projects }: { projects: ProjectMeta[] }) {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(".projects-list > *",
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: "power3.out",
+          scrollTrigger: {
+            trigger: "#projects",
+            start: "top 85%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section
       id="projects"
+      ref={sectionRef}
       className="min-h-screen w-full py-20"
       style={{ background: "linear-gradient(160deg, #faf8f5 0%, #f8f0e5 50%, #f2e8d8 100%)" }}
       data-section="projects"
@@ -19,7 +45,7 @@ export default function ProjectsSection() {
           subtitle="把想法变成现实，每一个项目都是一次探索。"
         />
 
-        <div className="flex flex-col gap-5">
+        <div className="projects-list flex flex-col gap-5">
           {projects.map((project, i) => (
             <ProjectCard
               key={project.slug}

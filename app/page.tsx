@@ -1,4 +1,4 @@
-import { getPhotos, getPhotoCategories } from "@/lib/content";
+import { getPhotos, getPhotoCategories, getArticles, getProjects } from "@/lib/content";
 import SmoothScrollWrapper from "@/components/SmoothScrollWrapper";
 import Navbar from "@/components/Navbar";
 import NavDots from "@/components/NavDots";
@@ -10,15 +10,17 @@ import ProjectsSection from "@/components/ProjectsSection";
 export default function Home() {
   const photos = getPhotos();
   const categories = getPhotoCategories();
+  const articles = getArticles();
+  const projects = getProjects();
 
   return (
     <SmoothScrollWrapper>
       <Navbar />
       <NavDots />
       <AboutSection />
-      <ArticlesSection />
+      <ArticlesSection articles={articles} />
       <PhotosSection photos={photos} categories={categories} />
-      <ProjectsSection />
+      <ProjectsSection projects={projects} />
     </SmoothScrollWrapper>
   );
 }

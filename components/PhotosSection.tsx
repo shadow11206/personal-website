@@ -4,6 +4,10 @@ import { useState, useEffect, useRef } from "react";
 import type { PhotoMeta } from "@/lib/content";
 import SectionTitle from "./SectionTitle";
 import PhotoCard from "./PhotoCard";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface PhotosSectionProps {
   photos: PhotoMeta[];
@@ -18,19 +22,21 @@ interface SizedPhoto extends PhotoMeta {
 const INITIAL_SHOW = 9;
 
 function assignGridSpans(photos: PhotoMeta[]): SizedPhoto[] {
-  // Pattern: first photo hero (2x2), then varied: wide(2x1), tall(1x2), square(1x1)
+  // Rich pattern: hero(3x2), large(2x2), wide(2x1), tall(1x2), small(1x1)
   return photos.map((photo, i) => {
-    if (i === 0) return { ...photo, spanCols: 2, spanRows: 2 };
-    const pattern = i % 6;
-    if (pattern === 1 || pattern === 4) return { ...photo, spanCols: 2, spanRows: 1 }; // wide
-    if (pattern === 2) return { ...photo, spanCols: 1, spanRows: 2 }; // tall
-    return { ...photo, spanCols: 1, spanRows: 1 }; // normal/small
+    if (i === 0) return { ...photo, spanCols: 3, spanRows: 2 }; // hero — full cinematic
+    const p = i % 8;
+    if (p === 3 || p === 6) return { ...photo, spanCols: 2, spanRows: 2 }; // large square
+    if (p === 5) return { ...photo, spanCols: 2, spanRows: 1 }; // wide
+    if (p === 2 || p === 7) return { ...photo, spanCols: 1, spanRows: 2 }; // tall
+    return { ...photo, spanCols: 1, spanRows: 1 }; // small square
   });
 }
 
 export default function PhotosSection({ photos, categories }: PhotosSectionProps) {
   const [activeCategory, setActiveCategory] = useState("全部");
   const [showAll, setShowAll] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
   const allSized = assignGridSpans(photos);
 
@@ -47,9 +53,29 @@ export default function PhotosSection({ photos, categories }: PhotosSectionProps
     setShowAll(false);
   };
 
+  // Scroll-triggered entrance animation
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(".photo-grid-item",
+        { opacity: 0, scale: 0.92 },
+        {
+          opacity: 1, scale: 1, duration: 0.7, stagger: 0.06, ease: "power3.out",
+          scrollTrigger: {
+            trigger: "#photos",
+            start: "top 80%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [activeCategory]);
+
   return (
     <section
       id="photos"
+      ref={sectionRef}
       className="min-h-screen w-full py-20"
       style={{ background: "linear-gradient(160deg, #f5f8f5 0%, #eef5ee 50%, #e6f0e6 100%)" }}
       data-section="photos"
@@ -61,7 +87,6 @@ export default function PhotosSection({ photos, categories }: PhotosSectionProps
           subtitle="用镜头捕捉光影，记录世界的每一个瞬间。"
         />
 
-        {/* Category tabs */}
         <div className="flex gap-6 mb-8 border-b border-surface-divider pb-3">
           {categories.map((cat) => (
             <button
@@ -78,27 +103,21 @@ export default function PhotosSection({ photos, categories }: PhotosSectionProps
           ))}
         </div>
 
-        {/* Jigsaw grid — varying spans per photo */}
-        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[160px] gap-3">
-          {visible.map((photo) => {
-            const colSpan = photo.spanCols;
-            const rowSpan = photo.spanRows;
-            return (
-              <div
-                key={photo.slug}
-                className="relative"
-                style={{
-                  gridColumn: `span ${colSpan}`,
-                  gridRow: `span ${rowSpan}`,
-                }}
-              >
-                <PhotoCard photo={photo} />
-              </div>
-            );
-          })}
+        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[220px] gap-3">
+          {visible.map((photo) => (
+            <div
+              key={photo.slug}
+              className="photo-grid-item relative"
+              style={{
+                gridColumn: `span ${photo.spanCols}`,
+                gridRow: `span ${photo.spanRows}`,
+              }}
+            >
+              <PhotoCard photo={photo} />
+            </div>
+          ))}
         </div>
 
-        {/* Show more / collapse */}
         {hasMore && !showAll && (
           <div className="text-center mt-8">
             <button
