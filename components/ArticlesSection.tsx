@@ -16,28 +16,30 @@ export default function ArticlesSection({ articles }: { articles: ArticleMeta[] 
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(".articles-featured",
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1, y: 0, duration: 0.8, ease: "power3.out",
-          scrollTrigger: {
-            trigger: "#articles",
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-      gsap.fromTo(".articles-grid .card",
         { opacity: 0, y: 50 },
         {
-          opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: "power3.out",
+          opacity: 1, y: 0, duration: 1.2, ease: "power3.out",
           scrollTrigger: {
-            trigger: ".articles-grid",
+            trigger: "#articles",
             start: "top 85%",
             toggleActions: "play none none none",
           },
         }
       );
+      gsap.fromTo(".articles-grid .card",
+        { opacity: 0, y: 60 },
+        {
+          opacity: 1, y: 0, duration: 1.0, stagger: 0.12, ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".articles-grid",
+            start: "top 90%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
     }, sectionRef);
+
+    ScrollTrigger.refresh();
 
     return () => ctx.revert();
   }, []);

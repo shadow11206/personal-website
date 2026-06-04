@@ -53,24 +53,31 @@ export default function PhotosSection({ photos, categories }: PhotosSectionProps
     setShowAll(false);
   };
 
-  // Scroll-triggered entrance animation
+  // Scroll-triggered entrance animation — deferred for Lenis sync
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(".photo-grid-item",
-        { opacity: 0, scale: 0.92 },
-        {
-          opacity: 1, scale: 1, duration: 0.7, stagger: 0.06, ease: "power3.out",
-          scrollTrigger: {
-            trigger: "#photos",
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-    }, sectionRef);
+    let ctx: gsap.Context | null = null;
+    const timer = setTimeout(() => {
+      ctx = gsap.context(() => {
+        gsap.fromTo(".photo-grid-item",
+          { opacity: 0, scale: 0.92 },
+          {
+            opacity: 1, scale: 1, duration: 1.0, stagger: 0.1, ease: "power3.out",
+            scrollTrigger: {
+              trigger: "#photos",
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }, sectionRef);
+      ScrollTrigger.refresh();
+    }, 100);
 
-    return () => ctx.revert();
-  }, [activeCategory]);
+    return () => {
+      clearTimeout(timer);
+      ctx?.revert();
+    };
+  }, []);
 
   return (
     <section

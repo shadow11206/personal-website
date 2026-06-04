@@ -13,21 +13,28 @@ export default function ProjectsSection({ projects }: { projects: ProjectMeta[] 
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(".projects-list > *",
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: "power3.out",
-          scrollTrigger: {
-            trigger: "#projects",
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-    }, sectionRef);
+    let ctx: gsap.Context | null = null;
+    const timer = setTimeout(() => {
+      ctx = gsap.context(() => {
+        gsap.fromTo(".projects-list > *",
+          { opacity: 0, y: 60 },
+          {
+            opacity: 1, y: 0, duration: 1.0, stagger: 0.15, ease: "power3.out",
+            scrollTrigger: {
+              trigger: "#projects",
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }, sectionRef);
+      ScrollTrigger.refresh();
+    }, 100);
 
-    return () => ctx.revert();
+    return () => {
+      clearTimeout(timer);
+      ctx?.revert();
+    };
   }, []);
 
   return (

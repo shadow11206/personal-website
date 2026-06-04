@@ -14,28 +14,30 @@ export default function AboutSection() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(".about-image",
-        { opacity: 0, x: -60 },
+        { opacity: 0, x: -80 },
         {
-          opacity: 1, x: 0, duration: 0.9, ease: "power3.out",
+          opacity: 1, x: 0, duration: 1.3, ease: "power3.out",
           scrollTrigger: {
             trigger: "#about",
-            start: "top 70%",
+            start: "top 85%",
             toggleActions: "play none none none",
           },
         }
       );
       gsap.fromTo(".about-text > *",
-        { opacity: 0, x: 60 },
+        { opacity: 0, x: 80 },
         {
-          opacity: 1, x: 0, duration: 0.8, stagger: 0.08, ease: "power3.out",
+          opacity: 1, x: 0, duration: 1.1, stagger: 0.12, ease: "power3.out",
           scrollTrigger: {
             trigger: "#about",
-            start: "top 70%",
+            start: "top 85%",
             toggleActions: "play none none none",
           },
         }
       );
     }, sectionRef);
+
+    ScrollTrigger.refresh();
 
     return () => ctx.revert();
   }, []);
