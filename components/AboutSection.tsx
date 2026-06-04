@@ -1,64 +1,38 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import profile from "@/data/profile.json";
 import ContactIcon from "./ContactIcon";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import { useInView } from "@/hooks/useInView";
 
 export default function AboutSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(".about-image",
-        { opacity: 0, x: -80 },
-        {
-          opacity: 1, x: 0, duration: 1.3, ease: "power3.out",
-          scrollTrigger: {
-            trigger: "#about",
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-      gsap.fromTo(".about-text > *",
-        { opacity: 0, x: 80 },
-        {
-          opacity: 1, x: 0, duration: 1.1, stagger: 0.12, ease: "power3.out",
-          scrollTrigger: {
-            trigger: "#about",
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-    }, sectionRef);
-
-    ScrollTrigger.refresh();
-
-    return () => ctx.revert();
-  }, []);
+  const { ref, inView } = useInView(0.1);
 
   return (
     <section
       id="about"
-      ref={sectionRef}
+      ref={ref}
       className="h-screen w-full flex overflow-hidden"
       style={{ background: "linear-gradient(160deg, #faf8f5 0%, #f5f0e8 50%, #efe4d4 100%)" }}
       data-section="about"
     >
-      {/* Left: full-bleed image — 45% */}
       <div
-        className="about-image w-[45%] h-full bg-cover bg-center relative"
-        style={{ backgroundImage: `url(${profile.avatar})` }}
+        className="w-[45%] h-full bg-cover bg-center relative transition-all duration-1000 ease-out"
+        style={{
+          backgroundImage: `url(${profile.avatar})`,
+          opacity: inView ? 1 : 0,
+          transform: inView ? "translateX(0)" : "translateX(-60px)",
+        }}
       />
 
-      {/* Right: text content — 55% */}
       <div className="flex-1 flex items-center px-14">
-        <div className="about-text">
+        <div
+          className="transition-all duration-1000 ease-out"
+          style={{
+            opacity: inView ? 1 : 0,
+            transform: inView ? "translateX(0)" : "translateX(60px)",
+            transitionDelay: inView ? "0.1s" : "0s",
+          }}
+        >
           <div className="text-[12px] tracking-[3px] text-text-caption uppercase mb-3">
             ABOUT ME
           </div>

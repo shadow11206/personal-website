@@ -1,13 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import type { PhotoMeta } from "@/lib/content";
 import SectionTitle from "./SectionTitle";
 import PhotoCard from "./PhotoCard";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import { useInView } from "@/hooks/useInView";
 
 interface PhotosSectionProps {
   photos: PhotoMeta[];
@@ -22,21 +19,20 @@ interface SizedPhoto extends PhotoMeta {
 const INITIAL_SHOW = 9;
 
 function assignGridSpans(photos: PhotoMeta[]): SizedPhoto[] {
-  // Rich pattern: hero(3x2), large(2x2), wide(2x1), tall(1x2), small(1x1)
+  // Rich jigsaw pattern: hero(3x2), large(2x2), wide(2x1), tall(1x2 only occasionally), small(1x1)
   return photos.map((photo, i) => {
-    if (i === 0) return { ...photo, spanCols: 3, spanRows: 2 }; // hero — full cinematic
-    const p = i % 8;
-    if (p === 3 || p === 6) return { ...photo, spanCols: 2, spanRows: 2 }; // large square
-    if (p === 5) return { ...photo, spanCols: 2, spanRows: 1 }; // wide
-    if (p === 2 || p === 7) return { ...photo, spanCols: 1, spanRows: 2 }; // tall
-    return { ...photo, spanCols: 1, spanRows: 1 }; // small square
+    if (i === 0) return { ...photo, spanCols: 3, spanRows: 2 }; // hero
+    const p = i % 6;
+    if (p === 1) return { ...photo, spanCols: 2, spanRows: 2 }; // large square
+    if (p === 3) return { ...photo, spanCols: 2, spanRows: 1 }; // wide
+    return { ...photo, spanCols: 1, spanRows: 1 }; // normal
   });
 }
 
 export default function PhotosSection({ photos, categories }: PhotosSectionProps) {
   const [activeCategory, setActiveCategory] = useState("全部");
   const [showAll, setShowAll] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+  const { ref, inView } = useInView(0.05);
 
   const allSized = assignGridSpans(photos);
 
@@ -48,41 +44,16 @@ export default function PhotosSection({ photos, categories }: PhotosSectionProps
   const visible = showAll ? filtered : filtered.slice(0, INITIAL_SHOW);
   const hasMore = filtered.length > INITIAL_SHOW;
 
-  const handleCategoryChange = (cat: string) => {
-    setActiveCategory(cat);
-    setShowAll(false);
-  };
-
-  // Scroll-triggered entrance animation — deferred for Lenis sync
-  useEffect(() => {
-    let ctx: gsap.Context | null = null;
-    const timer = setTimeout(() => {
-      ctx = gsap.context(() => {
-        gsap.fromTo(".photo-grid-item",
-          { opacity: 0, scale: 0.92 },
-          {
-            opacity: 1, scale: 1, duration: 1.0, stagger: 0.1, ease: "power3.out",
-            scrollTrigger: {
-              trigger: "#photos",
-              start: "top 85%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      }, sectionRef);
-      ScrollTrigger.refresh();
-    }, 100);
-
-    return () => {
-      clearTimeout(timer);
-      ctx?.revert();
-    };
-  }, []);
+  const itemStyle = (i: number) => ({
+    opacity: inView ? 1 : 0,
+    transform: inView ? "scale(1)" : "scale(0.94)",
+    transition: `all 0.8s cubic-bezier(0.25, 0.8, 0.5, 1) ${0.05 + i * 0.07}s`,
+  });
 
   return (
     <section
       id="photos"
-      ref={sectionRef}
+      ref={ref}
       className="min-h-screen w-full py-20"
       style={{ background: "linear-gradient(160deg, #f5f8f5 0%, #eef5ee 50%, #e6f0e6 100%)" }}
       data-section="photos"
@@ -98,7 +69,7 @@ export default function PhotosSection({ photos, categories }: PhotosSectionProps
           {categories.map((cat) => (
             <button
               key={cat}
-              onClick={() => handleCategoryChange(cat)}
+              onClick={() => setActiveCategory(cat)}
               className={`text-[12px] pb-3 -mb-[13px] transition-colors duration-200 border-b-2
                 ${cat === activeCategory
                   ? "text-[#ff6700] border-[#ff6700] font-medium"
@@ -110,12 +81,13 @@ export default function PhotosSection({ photos, categories }: PhotosSectionProps
           ))}
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[220px] gap-3">
-          {visible.map((photo) => (
+        {/* 4-column grid, 180px rows — avoids extreme ratios */}
+        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[180px] gap-3">
+          {visible.map((photo, i) => (
             <div
               key={photo.slug}
-              className="photo-grid-item relative"
               style={{
+                ...itemStyle(i),
                 gridColumn: `span ${photo.spanCols}`,
                 gridRow: `span ${photo.spanRows}`,
               }}

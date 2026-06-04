@@ -1,53 +1,24 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import type { ArticleMeta } from "@/lib/content";
 import SectionTitle from "./SectionTitle";
 import ArticleCard from "./ArticleCard";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
+import { useInView } from "@/hooks/useInView";
 
 export default function ArticlesSection({ articles }: { articles: ArticleMeta[] }) {
   const featuredArticle = articles.find((a) => a.featured);
-  const sectionRef = useRef<HTMLElement>(null);
+  const { ref, inView } = useInView(0.1);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(".articles-featured",
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1, y: 0, duration: 1.2, ease: "power3.out",
-          scrollTrigger: {
-            trigger: "#articles",
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-      gsap.fromTo(".articles-grid .card",
-        { opacity: 0, y: 60 },
-        {
-          opacity: 1, y: 0, duration: 1.0, stagger: 0.12, ease: "power3.out",
-          scrollTrigger: {
-            trigger: ".articles-grid",
-            start: "top 90%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-    }, sectionRef);
-
-    ScrollTrigger.refresh();
-
-    return () => ctx.revert();
-  }, []);
+  const cardStyle = (i: number) => ({
+    opacity: inView ? 1 : 0,
+    transform: inView ? "translateY(0)" : "translateY(40px)",
+    transition: `all 0.9s cubic-bezier(0.25, 0.8, 0.5, 1) ${0.15 + i * 0.1}s`,
+  });
 
   return (
     <section
       id="articles"
-      ref={sectionRef}
+      ref={ref}
       className="min-h-screen w-full py-20"
       style={{ background: "linear-gradient(160deg, #f5f7fa 0%, #eef2f7 50%, #e6ecf2 100%)" }}
       data-section="articles"
@@ -60,14 +31,23 @@ export default function ArticlesSection({ articles }: { articles: ArticleMeta[] 
         />
 
         {featuredArticle && (
-          <div className="articles-featured mb-8">
+          <div
+            className="mb-8 transition-all duration-1000 ease-out"
+            style={{
+              opacity: inView ? 1 : 0,
+              transform: inView ? "translateY(0)" : "translateY(30px)",
+              transitionDelay: "0.05s",
+            }}
+          >
             <ArticleCard article={featuredArticle} featured />
           </div>
         )}
 
-        <div className="articles-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {articles.map((article) => (
-            <ArticleCard key={article.slug} article={article} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {articles.map((article, i) => (
+            <div key={article.slug} style={cardStyle(i)}>
+              <ArticleCard article={article} />
+            </div>
           ))}
         </div>
       </div>
