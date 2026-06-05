@@ -19,13 +19,14 @@ interface SizedPhoto extends PhotoMeta {
 const INITIAL_SHOW = 9;
 
 function assignGridSpans(photos: PhotoMeta[]): SizedPhoto[] {
-  // Rich jigsaw pattern: hero(3x2), large(2x2), wide(2x1), tall(1x2 only occasionally), small(1x1)
+  // Rich jigsaw: hero(3x2), large(2x2), wide(2x1), tall(1x2), small(1x1)
   return photos.map((photo, i) => {
     if (i === 0) return { ...photo, spanCols: 3, spanRows: 2 }; // hero
-    const p = i % 6;
-    if (p === 1) return { ...photo, spanCols: 2, spanRows: 2 }; // large square
-    if (p === 3) return { ...photo, spanCols: 2, spanRows: 1 }; // wide
-    return { ...photo, spanCols: 1, spanRows: 1 }; // normal
+    const p = i % 8;
+    if (p === 3 || p === 6) return { ...photo, spanCols: 2, spanRows: 2 }; // large
+    if (p === 5) return { ...photo, spanCols: 2, spanRows: 1 }; // wide
+    if (p === 2 || p === 7) return { ...photo, spanCols: 1, spanRows: 2 }; // tall
+    return { ...photo, spanCols: 1, spanRows: 1 }; // small
   });
 }
 
@@ -81,8 +82,8 @@ export default function PhotosSection({ photos, categories }: PhotosSectionProps
           ))}
         </div>
 
-        {/* 4-column grid, 180px rows — avoids extreme ratios */}
-        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[180px] gap-3">
+        {/* 4-column grid, 220px rows */}
+        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[220px] gap-3">
           {visible.map((photo, i) => (
             <div
               key={photo.slug}
