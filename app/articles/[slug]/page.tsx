@@ -61,7 +61,7 @@ export default async function ArticlePage({
               img: ({ src, alt }) => {
                 const srcStr = typeof src === "string" ? src : "";
                 return (
-                  <ImageViewer src={srcStr} alt={alt || ""} className="rounded-lg w-full" />
+                  <ImageViewer src={srcStr} alt={alt || ""} className="w-full" />
                 );
               },
             }}

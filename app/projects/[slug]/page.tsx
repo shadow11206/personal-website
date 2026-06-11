@@ -113,13 +113,13 @@ export default async function ProjectPage({
 
         {/* Hero image */}
         <div
-          className="mt-7 rounded-[10px] overflow-hidden animate-fade-up"
+          className="mt-7 animate-fade-up"
           style={{ animationDelay: "0.4s" }}
         >
           <ImageViewer
             src={meta.cover}
             alt={meta.title}
-            className="w-full h-[260px] object-cover"
+            className="w-full"
           />
         </div>
 
@@ -133,7 +133,7 @@ export default async function ProjectPage({
               img: ({ src, alt }) => {
                 const srcStr = typeof src === "string" ? src : "";
                 return (
-                  <ImageViewer src={srcStr} alt={alt || ""} className="rounded-lg w-full" />
+                  <ImageViewer src={srcStr} alt={alt || ""} className="w-full" />
                 );
               },
             }}

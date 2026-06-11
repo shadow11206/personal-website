@@ -28,13 +28,25 @@ export default function ImageViewer({ src, alt, className = "" }: ImageViewerPro
 
   return (
     <>
-      <img
-        src={src}
-        alt={alt}
-        className={`cursor-zoom-in ${className}`}
+      {/* Thumbnail — click to open */}
+      <div
+        className={`cursor-zoom-in group relative overflow-hidden rounded-[10px] ${className}`}
         onClick={() => setOpen(true)}
-      />
+      >
+        <img
+          src={src}
+          alt={alt}
+          className="w-full h-auto block"
+        />
+        {/* Hover hint */}
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
+          <span className="text-white text-[12px] tracking-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 rounded-full px-4 py-2">
+            点击放大
+          </span>
+        </div>
+      </div>
 
+      {/* Immersive overlay */}
       {open && (
         <div
           className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-xl flex items-center justify-center animate-fade-in"
