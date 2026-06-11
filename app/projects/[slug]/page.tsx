@@ -2,6 +2,7 @@ import { getProjects, getProjectBySlug } from "@/lib/content";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import BackButton from "@/components/BackButton";
+import ImageViewer from "@/components/ImageViewer";
 
 export function generateStaticParams() {
   return getProjects().map((p) => ({ slug: p.slug }));
@@ -112,20 +113,33 @@ export default async function ProjectPage({
 
         {/* Hero image */}
         <div
-          className="w-full h-[260px] bg-cover bg-center rounded-[10px] mt-7
-                     animate-fade-up"
-          style={{
-            backgroundImage: `url(${meta.cover})`,
-            animationDelay: "0.4s",
-          }}
-        />
+          className="mt-7 rounded-[10px] overflow-hidden animate-fade-up"
+          style={{ animationDelay: "0.4s" }}
+        >
+          <ImageViewer
+            src={meta.cover}
+            alt={meta.title}
+            className="w-full h-[260px] object-cover"
+          />
+        </div>
 
         {/* Body content */}
         <div className="mt-7 prose prose-sm max-w-none
                         prose-headings:text-text-primary prose-headings:font-semibold
                         prose-p:text-[15px] prose-p:text-text-body prose-p:leading-relaxed
                         prose-img:rounded-lg prose-img:w-full">
-          <ReactMarkdown>{data.content}</ReactMarkdown>
+          <ReactMarkdown
+            components={{
+              img: ({ src, alt }) => {
+                const srcStr = typeof src === "string" ? src : "";
+                return (
+                  <ImageViewer src={srcStr} alt={alt || ""} className="rounded-lg w-full" />
+                );
+              },
+            }}
+          >
+            {data.content}
+          </ReactMarkdown>
         </div>
       </div>
     </div>

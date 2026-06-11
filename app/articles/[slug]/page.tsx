@@ -2,6 +2,7 @@ import { getArticles, getArticleBySlug } from "@/lib/content";
 import { notFound } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import BackButton from "@/components/BackButton";
+import ImageViewer from "@/components/ImageViewer";
 
 export function generateStaticParams() {
   return getArticles().map((a) => ({ slug: a.slug }));
@@ -55,7 +56,18 @@ export default async function ArticlePage({
                         prose-blockquote:py-3 prose-blockquote:px-4
                         prose-blockquote:text-[14px] prose-blockquote:text-text-body
                         prose-blockquote:not-italic">
-          <ReactMarkdown>{data.content}</ReactMarkdown>
+          <ReactMarkdown
+            components={{
+              img: ({ src, alt }) => {
+                const srcStr = typeof src === "string" ? src : "";
+                return (
+                  <ImageViewer src={srcStr} alt={alt || ""} className="rounded-lg w-full" />
+                );
+              },
+            }}
+          >
+            {data.content}
+          </ReactMarkdown>
         </div>
       </div>
     </div>
