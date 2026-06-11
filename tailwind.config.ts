@@ -31,6 +31,7 @@ const config: Config = {
         "fade-up": "fadeUp 0.6s ease-out forwards",
         "fade-in": "fadeIn 0.5s ease-out forwards",
         "float-up": "floatUp 0.3s ease-out forwards",
+        "scale-in": "scaleIn 0.35s ease-out forwards",
       },
       keyframes: {
         fadeUp: {
@@ -44,6 +45,10 @@ const config: Config = {
         floatUp: {
           from: { transform: "translateY(0)" },
           to: { transform: "translateY(-4px)" },
+        },
+        scaleIn: {
+          from: { opacity: "0", transform: "scale(0.92)" },
+          to: { opacity: "1", transform: "scale(1)" },
         },
       },
     },
