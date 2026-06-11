@@ -52,21 +52,22 @@ export default function ImageViewer({ src, alt, className = "" }: ImageViewerPro
           className="fixed inset-0 z-[100] bg-black/40 backdrop-blur-xl flex items-center justify-center animate-fade-in"
           onClick={() => setOpen(false)}
         >
-          <button
-            onClick={() => setOpen(false)}
-            className="absolute top-6 right-6 z-[101] w-10 h-10 rounded-full bg-black/30 hover:bg-black/50 flex items-center justify-center transition-colors backdrop-blur"
-            aria-label="关闭"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
-              <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
-          <img
-            src={src}
-            alt={alt}
-            className="max-w-[92vw] max-h-[92vh] object-contain select-none animate-scale-in shadow-2xl rounded-lg"
-            onClick={(e) => e.stopPropagation()}
-          />
+          <div className="relative" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setOpen(false)}
+              className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center transition-colors backdrop-blur"
+              aria-label="关闭"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round">
+                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+            <img
+              src={src}
+              alt={alt}
+              className="max-w-[92vw] max-h-[92vh] object-contain select-none animate-scale-in shadow-2xl rounded-lg"
+            />
+          </div>
         </div>
       )}
     </>
