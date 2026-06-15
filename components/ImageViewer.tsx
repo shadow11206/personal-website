@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
+import Image from "next/image";
 
 interface ImageViewerProps {
   src: string;
@@ -33,10 +34,13 @@ export default function ImageViewer({ src, alt, className = "" }: ImageViewerPro
         className={`cursor-zoom-in group relative overflow-hidden rounded-[10px] ${className}`}
         onClick={() => setOpen(true)}
       >
-        <img
+        <Image
           src={src}
           alt={alt}
-          className="w-full h-auto block"
+          width={1200}
+          height={800}
+          sizes="(max-width: 1000px) 92vw, 920px"
+          className="w-full h-auto"
         />
         {/* Hover hint */}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300 flex items-center justify-center">
