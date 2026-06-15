@@ -64,7 +64,11 @@ export function getPhotos(): PhotoMeta[] {
       const { data } = matter(raw);
       return { slug: file.replace(".md", ""), ...data } as PhotoMeta;
     })
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    .sort((a, b) => {
+      const numA = parseInt(a.slug.replace(/\D/g, ""), 10) || 0;
+      const numB = parseInt(b.slug.replace(/\D/g, ""), 10) || 0;
+      return numA - numB;
+    });
 }
 
 export function getPhotoBySlug(slug: string): PhotoMeta {
