@@ -74,16 +74,20 @@ export default async function PhotoPage({
   return (
     <div className="min-h-screen" style={{ background: "linear-gradient(160deg, #f5f8f5 0%, #eef5ee 40%, #e6f0e6 100%)" }}>
       <div className="max-w-[1000px] mx-auto px-10 py-12">
-        <div className="flex items-end justify-between mb-7">
-          <div>
-            <span className="text-[12px] tracking-[1px] text-[#ff6700]">
-              {photo.category.toUpperCase()} · {photo.date}
-            </span>
-            <h1 className="text-[34px] font-bold text-text-primary mt-2">
-              {photo.title}
-            </h1>
-          </div>
+        {/* Top nav row: back button + prev/next */}
+        <div className="flex items-center justify-between mb-5">
+          <BackButton href="/#photos" label="返回画廊" />
           <PrevNextNav slug={slug} />
+        </div>
+
+        {/* Category + title */}
+        <div className="mb-7">
+          <span className="text-[12px] tracking-[1px] text-[#ff6700]">
+            {photo.category.toUpperCase()} · {photo.date}
+          </span>
+          <h1 className="text-[34px] font-bold text-text-primary mt-2">
+            {photo.title}
+          </h1>
         </div>
 
         {/* Main image — clickable for immersive view */}
@@ -99,10 +103,6 @@ export default async function PhotoPage({
             <path d="M12 2a8 8 0 0 0-8 8c0 5.4 8 12 8 12s8-6.6 8-12a8 8 0 0 0-8-8z"/>
           </svg>
           <span className="text-[14px] text-text-secondary">{photo.location}</span>
-        </div>
-
-        <div className="mt-8">
-          <BackButton href="/#photos" label="返回画廊" />
         </div>
       </div>
     </div>
