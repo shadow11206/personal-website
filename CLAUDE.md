@@ -1,1 +1,42 @@
-@AGENTS.md
+# Personal Website
+
+## 架构
+
+- Next.js 15 App Router，单页滚动首页（`app/page.tsx`），四个 section：About / Articles / Photos / Projects
+- 明细页 `app/{articles,photos,projects}/[slug]/page.tsx`，全部 `generateStaticParams` 做 SSG
+- 没有列表索引页，所有导航从首页直达详情页
+
+## 内容系统
+
+- Markdown 内容在 `content/{articles,photos,projects}/`，`gray-matter` 解析
+- TypeScript 接口（`ArticleMeta`、`PhotoMeta`、`ProjectMeta`）定义在 `lib/content.ts`
+- 文章/照片/项目新增只需在对应目录加 `.md` 文件 + 图片放 `public/images/` 即可，构建时自动发现
+- 个人信息（名字、简介、社交链接、统计数字）在 `data/profile.json`，由 `AboutSection.tsx` 读取
+
+### 内容 frontmatter 字段
+
+**文章**：title, date, category, cover, excerpt, readTime, featured
+**照片**：title, date, category, image, location
+**项目**：title, type, date, description, cover, techStack[], liveUrl?, sourceUrl?
+
+## 照片模块
+
+- 不规则拼图网格：`assignGridSpans()` 按 index 分配 span（0=hero 3×2，之后 8 项周期：large/wide/tall/small）
+- 网格 4 列 `auto-rows-[220px]`，`INITIAL_SHOW = 10`（少了右下角会缺角）
+- 所有照片已压缩为 2400px 长边 WebP（`ae4f914`），新增图片也需类似处理，否则首页滚动会卡
+- `PhotoCard` 用 `next/image` 的 `fill` + `object-cover`，父容器 `.photo-card` 已有 `position: relative`
+- `SmoothScrollWrapper` 初始化了 Lenis + GSAP ScrollTrigger，但各 section 入场动画实际用的是自定义 `useInView`（IntersectionObserver），不是 ScrollTrigger
+- 动画交错延迟：照片 0.07s×i，文章 0.1s×i，改动节奏需考虑该规律
+
+## 滚动与导航
+
+- Lenis 平滑滚动 duration 1.2s，自定义缓动函数
+- Navbar 和 NavDots 各自独立监听 `window.scroll` 判断当前 section（通过 `offsetTop` 比较）
+- Navbar 里 "YOUR NAME" 是硬编码的，没有读 `profile.json`
+
+## 已知注意事项
+
+- `ImageViewer`（用于文章/项目）和 `PhotoViewer`（用于照片）代码几乎一样，改一个要记得改另一个
+- `lib/content.ts` 用同步 `fs.readdirSync/readFileSync`，仅在构建时运行，不能用于运行时
+- 每个 section 有不同背景渐变，在各自组件里硬编码
+- 文章详情页 Markdown 渲染用 `@tailwindcss/typography` 的 `prose`，图片通过 `ReactMarkdown` 的 component override 替换为 `ImageViewer`
