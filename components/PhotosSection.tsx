@@ -16,7 +16,7 @@ interface SizedPhoto extends PhotoMeta {
   spanRows: number;
 }
 
-const INITIAL_SHOW = 9;
+const INITIAL_SHOW = 10;
 
 function assignGridSpans(photos: PhotoMeta[]): SizedPhoto[] {
   // Rich jigsaw: hero(3x2), large(2x2), wide(2x1), tall(1x2), small(1x1)

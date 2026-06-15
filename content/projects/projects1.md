@@ -3,7 +3,7 @@ title: "ai-observation"
 type: "WEB APP"
 date: "2026-03-20"
 description: "帮助个人及团队了解每日AI热点、深度调研话题，构建AI认知"
-cover: "/images/projects/project-a.jpg"
+cover: "/images/projects/project1.jpg"
 techStack: ["纯静态HTML/CSS/JS"]
 liveUrl: "https://shadow11206.github.io/ai-observation/ui/index.html"
 sourceUrl: "https://github.com/shadow11206/ai-observation"

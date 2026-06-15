@@ -39,7 +39,7 @@ export default function PhotoViewer({ src, alt }: PhotoViewerProps) {
           width={1200}
           height={800}
           sizes="(max-width: 1000px) 92vw, 920px"
-          className="w-full max-h-[80vh] object-cover"
+          className="w-full max-h-[80vh] object-contain"
           priority
         />
         {/* Hover hint */}

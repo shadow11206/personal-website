@@ -44,7 +44,7 @@ export default function ArticlesSection({ articles }: { articles: ArticleMeta[] 
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {articles.map((article, i) => (
+          {articles.filter((a) => a.slug !== featuredArticle?.slug).map((article, i) => (
             <div key={article.slug} style={cardStyle(i)}>
               <ArticleCard article={article} />
             </div>
