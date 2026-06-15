@@ -83,7 +83,7 @@ export default function PhotosSection({ photos, categories }: PhotosSectionProps
         </div>
 
         {/* 4-column grid, 220px rows */}
-        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[220px] gap-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[220px] gap-3 grid-flow-row-dense">
           {visible.map((photo, i) => (
             <div
               key={photo.slug}
