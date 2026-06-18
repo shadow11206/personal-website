@@ -1,6 +1,4 @@
-"use client";
-
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface BackButtonProps {
   href: string;
@@ -8,26 +6,9 @@ interface BackButtonProps {
 }
 
 export default function BackButton({ href, label }: BackButtonProps) {
-  const router = useRouter();
-
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (document.referrer) {
-      try {
-        const referrerOrigin = new URL(document.referrer).origin;
-        if (referrerOrigin === window.location.origin) {
-          router.back();
-          return;
-        }
-      } catch {}
-    }
-    router.push(href);
-  };
-
   return (
-    <a
+    <Link
       href={href}
-      onClick={handleClick}
       className="inline-flex items-center gap-1.5 text-[13px] text-text-secondary
                  hover:text-[#ff6700] transition-colors duration-250 group"
     >
@@ -45,6 +26,6 @@ export default function BackButton({ href, label }: BackButtonProps) {
         <path d="M19 12H5M12 19l-7-7 7-7" />
       </svg>
       {label}
-    </a>
+    </Link>
   );
 }
