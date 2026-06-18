@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import type { PhotoMeta } from "@/lib/content";
 import SectionTitle from "./SectionTitle";
 import PhotoCard from "./PhotoCard";
@@ -17,6 +17,16 @@ interface SizedPhoto extends PhotoMeta {
 }
 
 const INITIAL_SHOW = 10;
+const STORAGE_KEY = "photos-section-state";
+
+function readSavedState(): { category: string; showAll: boolean } {
+  if (typeof window === "undefined") return { category: "全部", showAll: false };
+  try {
+    const raw = sessionStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch {}
+  return { category: "全部", showAll: false };
+}
 
 function assignGridSpans(photos: PhotoMeta[]): SizedPhoto[] {
   // Rich jigsaw: hero(3x2), large(2x2), wide(2x1), tall(1x2), small(1x1)
@@ -33,7 +43,55 @@ function assignGridSpans(photos: PhotoMeta[]): SizedPhoto[] {
 export default function PhotosSection({ photos, categories }: PhotosSectionProps) {
   const [activeCategory, setActiveCategory] = useState("全部");
   const [showAll, setShowAll] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
   const { ref, inView } = useInView(0.05);
+  const scrollRestored = useRef(false);
+
+  // Restore persisted state from sessionStorage on first mount
+  useEffect(() => {
+    const saved = readSavedState();
+    setActiveCategory(saved.category);
+    setShowAll(saved.showAll);
+    setHydrated(true);
+  }, []);
+
+  // Persist state changes to sessionStorage (skip before hydration)
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ category: activeCategory, showAll }));
+    } catch {}
+  }, [activeCategory, showAll, hydrated]);
+
+  // Restore scroll position after state is applied and all photos rendered
+  useEffect(() => {
+    if (!hydrated || scrollRestored.current) return;
+    const savedScroll = sessionStorage.getItem("photos-scroll-y");
+    if (!savedScroll) { scrollRestored.current = true; return; }
+    const y = parseInt(savedScroll, 10);
+    if (isNaN(y)) { scrollRestored.current = true; return; }
+    // Wait for the expanded grid to finish layout
+    const raf = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: y, behavior: "instant" as ScrollBehavior });
+        scrollRestored.current = true;
+      });
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [hydrated, showAll, activeCategory]);
+
+  // Save scroll position on scroll (debounced)
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    const handleScroll = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        try { sessionStorage.setItem("photos-scroll-y", String(window.scrollY)); } catch {}
+      }, 150);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => { window.removeEventListener("scroll", handleScroll); clearTimeout(timer); };
+  }, []);
 
   const allSized = assignGridSpans(photos);
 
