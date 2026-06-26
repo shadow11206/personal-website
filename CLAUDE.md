@@ -21,6 +21,7 @@
 
 ## 照片模块
 
+- 照片按文件名数字序号排序（`parseInt(slug.replace(/\D/g, ""))`），不依赖 date 字段（多数为空或无序）
 - 不规则拼图网格：`assignGridSpans()` 按 index 分配 span（0=hero 3×2，之后 8 项周期：large/wide/tall/small）
 - 网格 4 列 `auto-rows-[220px]`，`INITIAL_SHOW = 10`（少了右下角会缺角）
 - 所有照片已压缩为 2400px 长边 WebP（`ae4f914`），新增图片也需类似处理，否则首页滚动会卡
@@ -33,6 +34,27 @@
 - Lenis 平滑滚动 duration 1.2s，自定义缓动函数
 - Navbar 和 NavDots 各自独立监听 `window.scroll` 判断当前 section（通过 `offsetTop` 比较）
 - Navbar 里 "YOUR NAME" 是硬编码的，没有读 `profile.json`
+- BackButton 使用纯 `<Link href="/#xxx">`，不在组件内做 `router.back()`（会导致"下一张"后返回错误页面）
+
+## 状态持久化
+
+- `PhotosSection` 将 `activeCategory` 和 `showAll` 写入 `sessionStorage`（key: `photos-section-state`）
+- 滚动位置通过 scroll 事件 debounce 保存到 `sessionStorage`（key: `photos-scroll-y`）
+- 返回首页时先恢复 state → 触发渲染 → 双 `requestAnimationFrame` 延迟恢复滚动
+
+## 部署
+
+- 平台：Cloudflare Pages（`personal-website-6ba.pages.dev`）
+- 构建：`output: "export"` 静态导出到 `out/`，`images.unoptimized: true`
+- CI/CD：`.github/workflows/deploy.yml`，push main 自动部署
+- Secrets：`CF_API_TOKEN` / `CF_ACCOUNT_ID` / `CF_PROJECT_NAME`
+- 本地预览静态构建用 `npx serve out/`，`next start` 在此模式下不可用
+
+## 移动端适配
+
+- About：`flex-col md:flex-row`，头像 `w-full md:w-[45%] h-[45vh] md:h-full`
+- 项目卡片：`flex-col md:flex-row`，图片 `w-full md:w-[340px]`，手机图在文上，桌面交替用 `md:order-last`
+- 照片网格：`grid-cols-2 md:grid-cols-4`
 
 ## 已知注意事项
 

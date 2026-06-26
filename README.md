@@ -46,9 +46,17 @@ hooks/useInView.ts      # IntersectionObserver 自定义 Hook
 
 ```bash
 npm install
-npm run dev     # 开发模式 → http://localhost:3000
-npm run build   # 生产构建
-npm run start   # 启动生产服务
+npm run dev        # 开发模式 → http://localhost:3000
+npm run build      # 静态导出生构建 → out/
+npx serve out/     # 本地预览生产构建
+```
+
+## 部署
+
+网站通过 GitHub Actions 自动部署到 Cloudflare Pages：`personal-website-6ba.pages.dev`
+
+```bash
+git push origin main   # 推送后自动构建部署，约 1-2 分钟上线
 ```
 
 ## 内容管理
