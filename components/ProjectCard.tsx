@@ -9,17 +9,17 @@ interface ProjectCardProps {
 export default function ProjectCard({ project, imageLeft }: ProjectCardProps) {
   const imageBlock = (
     <div
-      className="w-[340px] h-[200px] flex-shrink-0 bg-cover bg-center"
+      className="w-full md:w-[340px] h-[200px] md:h-[200px] flex-shrink-0 bg-cover bg-center"
       style={{ backgroundImage: `url(${project.cover})` }}
     />
   );
 
   const textBlock = (
-    <div className="flex flex-col justify-center p-7 flex-1">
+    <div className="flex flex-col justify-center p-5 md:p-7 flex-1">
       <span className="text-[12px] tracking-[1px] text-[#ff6700] mb-1.5">{project.type}</span>
-      <h3 className="text-[24px] font-bold text-text-primary">{project.title}</h3>
+      <h3 className="text-[20px] md:text-[24px] font-bold text-text-primary">{project.title}</h3>
       <p className="text-[14px] text-text-secondary mt-1.5 leading-relaxed">{project.description}</p>
-      <div className="flex gap-1.5 mt-3">
+      <div className="flex flex-wrap gap-1.5 mt-3">
         {project.techStack.map((tech) => (
           <span
             key={tech}
@@ -35,9 +35,11 @@ export default function ProjectCard({ project, imageLeft }: ProjectCardProps) {
 
   return (
     <Link href={`/projects/${project.slug}`} className="block group">
-      <div className="card flex">
-        {imageLeft ? imageBlock : textBlock}
-        {imageLeft ? textBlock : imageBlock}
+      <div className="card flex flex-col md:flex-row">
+        <div className={imageLeft ? "" : "md:order-last"}>
+          {imageBlock}
+        </div>
+        {textBlock}
       </div>
     </Link>
   );
