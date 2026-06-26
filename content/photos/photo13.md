@@ -1,7 +1,7 @@
 ---
 title: ""
-date: ""
-category: ""
+date: "2025-05-18"
+category: "建筑"
 image: "/images/photos/photo13.webp"
-location: ""
+location: "北京 · 朝阳公园"
 ---

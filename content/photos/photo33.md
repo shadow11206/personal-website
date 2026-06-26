@@ -1,7 +1,7 @@
 ---
 title: ""
-date: ""
-category: ""
+date: "2025-04-05"
+category: "人文"
 image: "/images/photos/photo33.webp"
-location: ""
+location: "天津"
 ---

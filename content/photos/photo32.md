@@ -1,7 +1,7 @@
 ---
 title: ""
-date: ""
-category: ""
+date: "2025-04-05"
+category: "建筑"
 image: "/images/photos/photo32.webp"
-location: ""
+location: "天津"
 ---

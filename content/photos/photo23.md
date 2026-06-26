@@ -1,7 +1,7 @@
 ---
 title: ""
-date: ""
-category: ""
+date: "2023-10-05"
+category: "自然"
 image: "/images/photos/photo23.webp"
-location: ""
+location: "四川 · 阿坝"
 ---
