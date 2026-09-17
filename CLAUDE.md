@@ -46,9 +46,11 @@
 
 - 平台：Cloudflare Pages（`personal-website-6ba.pages.dev`）
 - 构建：`output: "export"` 静态导出到 `out/`，`images.unoptimized: true`
-- CI/CD：`.github/workflows/deploy.yml`，push main 自动部署
-- Secrets：`CF_API_TOKEN` / `CF_ACCOUNT_ID` / `CF_PROJECT_NAME`
+- CI/CD：Cloudflare 原生 Git 集成，push main 自动构建部署，约 1-2 分钟
+- Cloudflare 构建配置：`build_command: npm run build`，`destination_dir: out`
 - 本地预览静态构建用 `npx serve out/`，`next start` 在此模式下不可用
+- **不要重复配置 CI**：曾同时存在 GitHub Actions 和 Cloudflare 原生构建，两者竞态导致坏部署覆盖好部署
+- Cloudflare 构建若失败，生产域名会退回上一个成功部署，但 CDN 可能缓存旧页面，需用 `curl` 验证详情页而非只看首页
 
 ## 移动端适配
 
